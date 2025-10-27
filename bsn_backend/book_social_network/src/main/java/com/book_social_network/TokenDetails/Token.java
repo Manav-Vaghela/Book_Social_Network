@@ -2,11 +2,17 @@ package com.book_social_network.TokenDetails;
 
 import com.book_social_network.Entity.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Token {
 
     @Id
