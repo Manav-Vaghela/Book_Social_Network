@@ -1,10 +1,7 @@
 package com.book_social_network.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,7 +17,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -94,7 +92,7 @@ public class User implements UserDetails, Principal {
         return email;
     }
 
-    private String fullName(){
+    public String fullName(){
 
         return firstName + " " + lastName;
     }
