@@ -1,5 +1,7 @@
 package com.book_social_network.Controllers;
 
+import com.book_social_network.Entity.AuthenticationRequest;
+import com.book_social_network.Entity.AuthenticationResponse;
 import com.book_social_network.Entity.RegistrationRequest;
 import com.book_social_network.Service.AuthenticationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,5 +26,18 @@ public class AuthenticationController {
 
         authenticationService.register(request);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request){
+
+        return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @GetMapping("/activate-account")
+    public void activateAccount(@RequestParam String token)
+            throws MessagingException {
+
+        authenticationService.activateAccount(token);
     }
 }

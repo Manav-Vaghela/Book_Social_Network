@@ -36,8 +36,8 @@ public class User implements UserDetails, Principal {
     @Column(unique=true)
     private String email;
     private String password;
-    private boolean accountLocked;
-    private boolean enabled;
+    private Boolean accountLocked;
+    private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;

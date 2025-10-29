@@ -29,7 +29,7 @@ public class EmailService {
 
     @Async
     public void sendEmail(String to, String username,
-                          EmailTemplateName emailTemplate, String confimationURL,
+                          EmailTemplateName emailTemplate, String confirmationURL,
                           String activationCode, String subject) throws MessagingException {
 
         String templateName;
@@ -49,13 +49,13 @@ public class EmailService {
         Map<String, Object> properties = new HashMap<>();
 
         properties.put("username", username);
-        properties.put("confirmationUrl", confimationURL);
+        properties.put("confirmationUrl", confirmationURL);
         properties.put("activation_code", activationCode);
 
         Context context = new Context();
         context.setVariables(properties);
 
-        mimeMessageHelper.setFrom("noreply@book_social_network.com");
+        mimeMessageHelper.setFrom("noreply@book-social-network.com");
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
 
