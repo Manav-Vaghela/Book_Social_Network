@@ -62,7 +62,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<ExceptionResponse> handleException(MessagingException exe){
 
-        return ResponseEntity.status(UNAUTHORIZED).body(
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(
+
+                ExceptionResponse.builder()
+                        .error(exe.getMessage())
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exe){
+
+        return ResponseEntity.status(BAD_REQUEST).body(
 
                 ExceptionResponse.builder()
                         .error(exe.getMessage())
