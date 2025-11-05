@@ -4,8 +4,11 @@ import com.book_social_network.Entity.Book;
 import com.book_social_network.Entity.BookResponse;
 import com.book_social_network.Entity.BookTransactionHistory;
 import com.book_social_network.Entity.BorrowedBookResponse;
+import com.book_social_network.File.FileUtils;
 import com.book_social_network.Record.BookRequest;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 
 @Service
 public class BookMapper {
@@ -34,6 +37,7 @@ public class BookMapper {
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .owner(book.getOwner().fullName())
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
