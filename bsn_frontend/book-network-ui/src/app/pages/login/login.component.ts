@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { authenticate } from '../../services/functions';
 import { ApiConfiguration } from '../../services/api-configuration';
 import { HttpClient } from '@angular/common/http';
+import { TokenService } from '../../services/token/token.service';
 
 @Component({
   selector: 'app-login',
-  imports: [NgForOf, FormsModule],
+  imports: [FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -18,7 +19,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private apiConfig: ApiConfiguration,
-    private http: HttpClient
+    private http: HttpClient,
+    private tokenService: TokenService
   ) {}
 
   authRequest: AuthenticationRequest = {
@@ -35,8 +37,25 @@ export class LoginComponent {
       this.apiConfig.rootUrl, 
       {body: this.authRequest,})
       .subscribe({
-      next: () => {
-        this.router.navigate(['books']);
+      next: async (result) => {
+
+        let body = result.body;
+
+        if(body instanceof Blob){
+
+          const text = await body.text();
+          body = JSON.parse(text);
+        }
+
+        if(body.token){
+
+          this.tokenService.token = body.token;
+          this.router.navigate(['books']);
+        }
+        else{
+
+          console.error("token is missing");
+        }
       },
 
       error: async (err) => {
