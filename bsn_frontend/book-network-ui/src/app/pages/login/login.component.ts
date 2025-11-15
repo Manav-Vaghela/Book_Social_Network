@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+
   constructor(
     private router: Router,
     private apiConfig: ApiConfiguration,
@@ -30,17 +31,19 @@ export class LoginComponent {
   async login(): Promise<void> {
     this.errorMsg = [];
 
-    authenticate(this.http, this.apiConfig.rootUrl, {
-      body: this.authRequest,
-    }).subscribe({
+    authenticate(this.http, 
+      this.apiConfig.rootUrl, 
+      {body: this.authRequest,})
+      .subscribe({
       next: () => {
         this.router.navigate(['books']);
       },
 
       error: async (err) => {
+
         let errorObj: any = err.error;
 
-        // 👉 Handle Blob response (Spring returns Blob when status=400/401)
+        //  Handle Blob response (Spring returns Blob when status=400/401)
         if (err.error instanceof Blob) {
           const text = await err.error.text();
           try {
@@ -53,19 +56,18 @@ export class LoginComponent {
 
         console.log('PARSED ERROR:', errorObj);
 
-        // 👉 Validation errors
+        //  Validation errors
         if (errorObj.validationErrors) {
           this.errorMsg = errorObj.validationErrors;
           return;
         }
 
-        // 👉 Business error (Bad credentials)
+        //  Business error (Bad credentials)
         if (errorObj.businessErrorDescription) {
           this.errorMsg.push(errorObj.businessErrorDescription);
           return;
         }
 
-        // 👉 Generic error
         this.errorMsg.push('Something went wrong');
       },
     });
