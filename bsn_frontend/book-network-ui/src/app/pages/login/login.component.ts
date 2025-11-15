@@ -35,7 +35,7 @@ export class LoginComponent {
 
     authenticate(this.http, 
       this.apiConfig.rootUrl, 
-      {body: this.authRequest,})
+      {body: this.authRequest})
       .subscribe({
       next: async (result) => {
 
@@ -72,9 +72,6 @@ export class LoginComponent {
             return;
           }
         }
-
-        console.log('PARSED ERROR:', errorObj);
-
         //  Validation errors
         if (errorObj.validationErrors) {
           this.errorMsg = errorObj.validationErrors;
@@ -92,5 +89,7 @@ export class LoginComponent {
     });
   }
 
-  register(): void {}
+  register(): void {
+    this.router.navigate(['register']);
+  }
 }
