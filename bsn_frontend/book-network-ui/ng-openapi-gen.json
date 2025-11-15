@@ -1,0 +1,6 @@
+{
+  "input": "./openapi.json",
+  "output": "./src/app/api",
+  "useTags": true,
+  "serviceSuffix": "Service"
+}
