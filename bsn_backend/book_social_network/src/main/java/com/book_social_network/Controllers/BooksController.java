@@ -23,7 +23,7 @@ import java.util.List;
 @Tag(name = "Book")
 public class BooksController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     @PostMapping
     public ResponseEntity<Integer> saveBook(@Valid @RequestBody BookRequest request,
