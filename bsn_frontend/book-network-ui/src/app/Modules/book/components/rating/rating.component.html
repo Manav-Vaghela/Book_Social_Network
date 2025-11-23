@@ -1,3 +1,11 @@
 <div class="rating">
-    <ng-container ngFor = "let x of [].constructor(fullStars); let i = index"></ng-container>
+    @for (x of [].constructor(fullStars); track $index) {
+        <i class="fas fa-star text-warning"></i>
+    }
+    @if (halfStars) {
+        <i class="fas fa-star-half-alt text-warning"></i>
+    }
+    @for (x of [].constructor(emptyStars); track $index) {
+        <i class="fas fa-star"></i>
+    }
 </div>
