@@ -15,6 +15,14 @@ const routes: Routes = [
       {
       path: 'my-books',
       loadComponent: ()=> import('./pages/my-books/my-books.component').then(c => c.MyBooksComponent)
+      },
+      {
+      path: 'manage',
+      loadComponent: ()=> import('./pages/manage-book/manage-book.component').then(c => c.ManageBookComponent)
+      },
+      {
+      path: 'manage/:bookId',
+      loadComponent: ()=> import('./pages/manage-book/manage-book.component').then(c => c.ManageBookComponent)
       }
     ]
   }
