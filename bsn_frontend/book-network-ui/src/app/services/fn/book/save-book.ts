@@ -10,7 +10,7 @@ import { RequestBuilder } from '../../request-builder';
 import { BookRequest } from '../../models/book-request';
 
 export interface SaveBook$Params {
-      body: BookRequest
+  body: BookRequest
 }
 
 export function saveBook(http: HttpClient, rootUrl: string, params: SaveBook$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
@@ -20,11 +20,15 @@ export function saveBook(http: HttpClient, rootUrl: string, params: SaveBook$Par
   }
 
   return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
+    rb.build({ responseType: 'text', accept: '*/*', context }) // <-- changed from 'blob' to 'text'
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: parseFloat(String((r as HttpResponse<any>).body)) }) as StrictHttpResponse<number>;
+      const bookId = parseFloat(r.body); // parse the text response to number
+      if (isNaN(bookId)) {
+        throw new Error(`Invalid book ID returned from server: ${r.body}`);
+      }
+      return r.clone({ body: bookId }) as StrictHttpResponse<number>;
     })
   );
 }
