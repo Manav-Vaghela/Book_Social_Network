@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BookRequest } from '../../../../services/models';
 import { FormsModule } from '@angular/forms';
 import { BookRoutingModule } from '../../book-routing.module';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConfiguration } from '../../../../services/api-configuration';
 import { HttpClient } from '@angular/common/http';
-import { saveBook, uploadBookCover } from '../../../../services/functions';
+import { findBookById, saveBook, uploadBookCover } from '../../../../services/functions';
 
 @Component({
   selector: 'app-manage-book',
@@ -13,11 +13,12 @@ import { saveBook, uploadBookCover } from '../../../../services/functions';
   templateUrl: './manage-book.component.html',
   styleUrl: './manage-book.component.scss',
 })
-export class ManageBookComponent {
+export class ManageBookComponent implements OnInit{
   constructor(
     private router: Router,
     private apiConfig: ApiConfiguration,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   bookRequest: BookRequest = {
@@ -29,6 +30,35 @@ export class ManageBookComponent {
   errorMsg: Array<string> = [];
   selectedBookCover!: File;
   selectedPicture: string | undefined = '';
+
+  ngOnInit(): void {
+      
+      const bookId = this.activatedRoute.snapshot.params['bookId'];
+
+      if(bookId){
+
+        findBookById(this.httpClient , this.apiConfig.rootUrl , {'book-id': bookId}).subscribe({
+
+          next:(book)=>{
+
+            this.bookRequest = {
+
+              id: book.body.id,
+              title: book.body.title as string,
+              authorName: book.body.authorName as string,
+              isbn: book.body.isbn as string, 
+              synopsis: book.body.synopsis as string,
+              sharable: book.body.shareable
+            }
+
+            if(book.body.cover){
+
+              this.selectedPicture = 'data:image/jpg;base64,' + book.body.cover;
+            }
+          }
+        })
+      }
+  }
 
   onFileSelected(event: any) {
     this.selectedBookCover = event.target.files[0];
