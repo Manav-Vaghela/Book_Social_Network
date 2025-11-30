@@ -23,6 +23,10 @@ const routes: Routes = [
       {
       path: 'manage/:bookId',
       loadComponent: ()=> import('./pages/manage-book/manage-book.component').then(c => c.ManageBookComponent)
+      },
+      {
+        path: 'my-borrowed-books',
+        loadComponent: ()=> import('./pages/borrowed-book-list/borrowed-book-list.component').then(c => c.BorrowedBookListComponent)
       }
     ]
   }
