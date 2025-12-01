@@ -27,6 +27,10 @@ const routes: Routes = [
       {
         path: 'my-borrowed-books',
         loadComponent: ()=> import('./pages/borrowed-book-list/borrowed-book-list.component').then(c => c.BorrowedBookListComponent)
+      },
+      {
+        path: 'my-returned-book',
+        loadChildren: ()=> import('./pages/return-book/return-book.component').then(c => c.ReturnBookComponent)
       }
     ]
   }
