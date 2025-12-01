@@ -9,5 +9,9 @@ import { BookRoutingModule } from '../../book-routing.module';
 })
 export class MenuComponent{
 
-  logout() {}
+  logout() {
+
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
 }
