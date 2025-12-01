@@ -77,6 +77,7 @@ export class BorrowedBookListComponent implements OnInit{
   returnBorrowedBook(book: BorrowedBookResponse){
 
     this.selectedBook = book;
+    this.feedBackRequest.bookId = book.id as number;
   }
 
   goToFirstPage() {
